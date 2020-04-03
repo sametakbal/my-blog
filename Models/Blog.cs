@@ -10,6 +10,8 @@ namespace MyBlog.Models
         public string Content { get; set; }
         public string ImagePath { get; set; }
         public bool IsPublish { get; set; }
+
+        public DateTime CreateTime{get;set;}=DateTime.Now;
         public Author Author { get; set; }
         public int AuthorId { get; set; }
         public Category Category { get; set; }
