@@ -14,16 +14,25 @@ namespace MyBlog.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly BlogContext _context;
 
-        public HomeController(ILogger<HomeController> logger,BlogContext context)
+        public HomeController(ILogger<HomeController> logger, BlogContext context)
         {
             _logger = logger;
             _context = context;
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
-            var list = _context.Blog.Take(4).OrderByDescending(x => x.CreateTime).ToList();
-            foreach(var blog in list){
+            var list = _context.Blog.Take(4).Where(b => b.IsPublish).OrderByDescending(x => x.CreateTime).ToList();
+            foreach (var blog in list)
+            {
                 blog.Author = _context.Author.Find(blog.AuthorId);
             }
             return View(list);
@@ -33,7 +42,7 @@ namespace MyBlog.Controllers
         {
             var blog = _context.Blog.Find(Id);
             blog.Author = _context.Author.Find(blog.AuthorId);
-            blog.ImagePath = "/img/"+blog.ImagePath;
+            blog.ImagePath = "/img/" + blog.ImagePath;
             return View(blog);
         }
 
